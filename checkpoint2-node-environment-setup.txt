@@ -1,0 +1,11 @@
+Exercises
+
+1. What is npm and what does it do?
+
+Npm is the node package manager, it allows users to install and distribute node modules from the command line.
+
+2. What kind of information does package.json hold?
+
+A package.json file holds information such as the package name, version, the main file of the application, any tests associated with it, keywords, the author, license, and any dependencies.
+
+3. Google another Node package. Using the demo directory run npm install <theNameOfThePackage> --save. Check the contents of your package.json file to make sure that the dependencies list the name of the Node package.
