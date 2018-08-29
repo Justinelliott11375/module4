@@ -1,0 +1,82 @@
+Exercises
+Questions
+1. What is the difference between readdirSync and readdir?
+
+Both methods will read the contents of a directory. readdirSync will do so synchronously, readdir will do so asynchronously.
+
+2. What is the event loop and how does it handle asynchronous requests?
+
+The event loop is how node handles incoming events. Synchronous events stop further code from executing until they are finished. Synchronous events that take a considerable amount of time are considered to be 'blocking' and are typically better used asynchronously. Asynchronous events start sequentially but do not stop consecutive lines of code from executing. When asynchronous events with callback functions are finished, the callback function will then enter the event loop and execute as well.
+
+3. Given the following code, specify whether the program is asynchronous and non-blocking or synchronous and blocking or synchronous and non-blocking.
+
+const fs = require('fs');
+const file = fs.readFileSync('foo.txt');
+console.log(file.toString());
+
+Synchronous and blocking.
+
+
+4. Given the following code, specify whether the program is asynchronous and non-blocking or synchronous and blocking or synchronous and non-blocking.
+
+const fs = require('fs');
+fs.readFile('foo.txt', (err, file) => {
+ if (err) throw err;
+ console.log(file.toString());
+});
+console.log("test");
+
+While the 'readFile' event is asynchronous, I would consider this synchronous and non-blocking because of the two console.log's.
+
+5. In what order will the console.log statements execute in the code below?
+
+const fs = require('fs');
+fs.readFile('foo.txt', (err, file) => {
+ if (err) throw err;
+ console.log("A");
+ console.log("B")
+});
+console.log("C");
+
+
+C,A,B; C will log immediately after the readFile executes but before it finishes. After the files are read, A and B will log synchronously as part of the callback(if there are no errors).
+
+6. setTimeout is a JavaScript function which calls a function after a set amount of milliseconds. Given the following code, explain in what sequence the functions will run and why.
+
+function greeting() {
+ setTimeout(() => {
+   console.log("friend");
+ }, 100);
+}
+
+function hello(){
+ console.log("hello");
+}
+
+greeting();
+hello();
+
+
+greeting() is called first but asynchronously, it will wait 100 milliseconds then console.log() the string "friend" but before 100 milliseconds has passed the hello() function will have already executed to log "hello" so the console output would be:
+
+hello
+friend
+
+
+7. Create a function which utilizes a callback. Make sure to add console.log statements to understand when your callback function is called.
+
+var myArray = [3,5,21,56,8,7,90,67,11,37,12,67];
+
+function squareWithCallback(arr,callback) {
+  for(let i = 0; i < arr.length; i++){
+    arr[i]= (arr[i] * arr[i]);
+    console.log(arr[i]);
+  };
+  callback();
+};
+
+function finished(){
+  console.log('Function is finished!');
+}
+
+squareWithCallback(myArray, finished);
